@@ -1,0 +1,29 @@
+- name: mongodb
+  hostname: mongodb
+  become: yes
+  tasks: 
+  - name: Copy monogdb repo
+    ansible.built.copy:
+      src: mongodb.repo
+      dest: /etc/yum.repos.d/mongodb.repo
+    
+- name: istall mongodb
+  ansible.built.pacakge:
+    name: mongodb-org
+    state: present
+
+- name: start and enable mongodb
+  ansible.built.service:
+    name: mangod
+    state: present
+
+- name: allow remote connections
+  ansible.built.replace:
+    path: /etc/mongod.conf
+    regexp: '127.0.0.1'
+    replace: '0.0.0.0'
+
+- name: start and enable mongodb
+  ansible.builtin.service:
+    name: mongod
+    state: restarted
