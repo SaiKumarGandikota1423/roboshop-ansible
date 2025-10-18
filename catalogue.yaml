@@ -19,3 +19,30 @@
       path: /app
       state: directory
 
+  - name: download catalouge application
+    ansible.builtin.get_url:
+      url: https://roboshop-builds.s3.amazonaws.com/catalogue.zip
+      dest: /tmp
+    
+  - name: extract catalouge application
+    ansible.builtin.unarchive:
+      src: /tmp/catalogue.zip
+      dest: /app
+      remote_src: yes
+    
+  - name: Install dependecies
+    ansible.builtin.command: npm Install
+    args: 
+      chdir: /app
+    
+  - name: Copy catalouge service
+    ansible.builtin.copy: 
+      src: catalogue.service
+      dest: /etc/systemd/system/catalogue.service
+      
+  - name: deamon reload and start
+    ansible.builtin.systemd.service:
+      deamon_reload: true
+
+  # let's start after the data is loaded
+
