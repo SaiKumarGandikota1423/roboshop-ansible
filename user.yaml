@@ -63,7 +63,7 @@
 
   - name: get the users count
     ansible.builtin.command:  mongo --host mongodb.devopsawscloud.shop --quiet --eval 'db = db.getSiblingDB("users"); db.users.count()'
-	#ansible.builtin.command:  mongo --host mongodb.daws76s.online --quiet --eval 'db = db.getSiblingDB("users"); db.users.count()'
+	  #ansible.builtin.command:  mongo --host mongodb.daws76s.online --quiet --eval 'db = db.getSiblingDB("users"); db.users.count()'
     register: user_count
 
   # - name: print the count
@@ -72,7 +72,7 @@
 
   - name: load user data
     ansible.builtin.command: mongo --host mongodb.devopsawscloud.shop < /app/schema/user.js
-	#ansible.builtin.command: mongo --host mongodb.daws76s.online < /app/schema/user.js
+  	#ansible.builtin.command: mongo --host mongodb.daws76s.online < /app/schema/user.js
     when: user_count.stdout == "0" # keep double quotes
 
   - name: start and enable user
